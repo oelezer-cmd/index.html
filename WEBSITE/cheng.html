@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Cheng ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffd1dc,#ffc0cb);
+    font-family:Georgia, serif;
+    overflow:hidden;
+}
+
+/* HEARTS */
+.hearts{
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+
+.heart{
+    position:absolute;
+    color:#ff3366;
+    animation:fall linear infinite;
+}
+
+@keyframes fall{
+    0%{transform:translateY(-100px);}
+    100%{transform:translateY(110vh);}
+}
+
+/* ENVELOPE */
+.container{
+    position:relative;
+    cursor:pointer;
+}
+
+.envelope{
+    width:340px;
+    height:220px;
+    background:#ff5c8a;
+    position:relative;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,0.25);
+}
+
+/* FLAP */
+.flap{
+    position:absolute;
+    top:0;
+    left:0;
+    width:0;
+    height:0;
+    border-left:170px solid transparent;
+    border-right:170px solid transparent;
+    border-top:120px solid #ff7aa2;
+    transform-origin:top;
+    transition:0.7s ease;
+    z-index:3;
+}
+
+.letter{
+    position:absolute;
+    width:300px;
+    background:#fffdf7;
+    left:20px;
+    top:60px;
+    padding:20px;
+    border-radius:6px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.15);
+
+    opacity:0;
+    transform:translateY(50px) scale(0.8);
+    transition:0.7s ease;
+}
+
+.container.open .flap{
+    transform:rotateX(180deg);
+}
+
+.container.open .letter{
+    opacity:1;
+    transform:translateY(-170px) scale(1);
+}
+
+/* LAPTOP CARD */
+.zoom-card{
+    position:fixed;
+    top:50%;
+    left:50%;
+
+    width:650px;
+    max-width:90vw;
+
+    background:#fffdf7;
+    padding:32px;
+
+    border-radius:14px;
+    box-shadow:0 25px 70px rgba(0,0,0,0.35);
+
+    z-index:999;
+
+    opacity:0;
+    transform:translate(-50%,-50%) scale(0.6);
+
+    pointer-events:none;
+
+    transition:0.35s ease;
+
+    overflow:hidden;
+}
+
+.zoom-card.show{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+}
+
+/* TEXT */
+.zoom-card h2{
+    color:#e91e63;
+    margin-bottom:14px;
+}
+
+.zoom-card p{
+    font-size:15px;
+    color:#444;
+    line-height:1.6;
+    margin-bottom:10px;
+}
+
+/* RESET TEXT */
+.reset-hint{
+    position:fixed;
+    bottom:20px;
+    width:100%;
+    text-align:center;
+    color:white;
+    font-size:14px;
+    opacity:0;
+    transition:0.3s ease;
+}
+
+.reset-hint.show{
+    opacity:0.9;
+}
+
+/* MESSAGE */
+.message{
+    position:absolute;
+    bottom:-60px;
+    width:100%;
+    text-align:center;
+    color:white;
+    font-weight:bold;
+}
+
+/* HEARTS */
+.hearts{
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts"></div>
+
+<div class="container" onclick="toggleLetter()">
+
+    <div class="envelope">
+        <div class="flap"></div>
+
+        <div class="letter">
+            <p>Click to open your letter...</p>
+        </div>
+    </div>
+
+    <div class="message">Click to open 💌</div>
+
+</div>
+
+<div class="zoom-card" id="zoomCard">
+
+<h2>My Babi ❤️</h2>
+
+<p>I’m not writing this to confuse you or to pressure you into anything. I just wanted to say what I couldn’t say before. I miss you — not just your presence, but the way you made even ordinary days feel lighter.</p>
+
+<p>I’ve also realized something about myself. I used to think I needed to be alone to figure everything out on my own. But I see now that being alone doesn’t always mean being okay. Sometimes it just means avoiding what we truly feel.</p>
+
+<p>If there’s even a small part of you that still thinks about us, I’d really like to talk — not to rush anything, but just to understand each other better. And if not, I will respect your decision.</p>
+
+<p>I just didn’t want to stay silent anymore.</p>
+
+<p>I hope God will find a way to bring us back together if we are truly meant to be.</p>
+
+<p>Take care of yourself, always. I genuinely wish you peace and happiness, even if it’s not with me.</p>
+
+<p>Love,<br>Eli❤️</p>
+
+</div>
+
+<div class="reset-hint" id="resetHint">Click anywhere to reset 💌</div>
+
+<script>
+let open = false;
+
+function toggleLetter(){
+    const container = document.querySelector(".container");
+    const zoom = document.getElementById("zoomCard");
+    const hint = document.getElementById("resetHint");
+
+    if(!open){
+        container.classList.add("open");
+
+        setTimeout(()=>{
+            zoom.classList.add("show");
+        }, 600);
+
+        hint.classList.add("show");
+
+        open = true;
+    } 
+    else {
+        zoom.classList.remove("show");
+
+        hint.classList.remove("show");
+
+        setTimeout(()=>{
+            container.classList.remove("open");
+        }, 250);
+
+        open = false;
+    }
+}
+
+/* HEARTS */
+const heartsContainer = document.querySelector(".hearts");
+
+function createHeart(){
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+
+    const emojis = ["❤️","💕","💖","💘","💝"];
+    heart.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.fontSize = (Math.random()*20 + 15) + "px";
+    heart.style.animationDuration = (Math.random()*4 + 4) + "s";
+
+    heartsContainer.appendChild(heart);
+
+    setTimeout(()=>heart.remove(),8000);
+}
+
+setInterval(createHeart,250);
+</script>
+
+</body>
+</html>
